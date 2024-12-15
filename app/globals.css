@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --container-w: 1470px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +15,165 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  /* Base typography styles for mobile */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply m-0 text-brand font-normal;
+  }
+
+  h1 {
+    @apply text-[30px] sm:text-[40px] md:text-[52px] lg:text-[64px] xl:text-[75px];
+  }
+
+  h2 {
+    @apply text-[30px] uppercase sm:text-[34px] md:text-[42px] lg:text-[50px];
+  }
+
+  h2.sec-title {
+    @apply relative mb-[60px] leading-none text-center font-bold 
+           sm:mb-[80px] lg:mb-[130px];
+    word-spacing: 8px;
+  }
+
+  h2.sec-title::before {
+    @apply content-[''] absolute top-[calc(100%+20px)] left-1/2 -translate-x-1/2 
+           w-[150px] h-[6px] bg-secondary;
+  }
+
+  h2.sec-title--with-lead {
+    @apply mb-[60px] !important;
+  }
+
+  h2.sec-title--with-lead + p.lead {
+    @apply mb-[60px] lg:mb-[80px] xl:mb-[120px];
+  }
+
+  h3 {
+    @apply text-[22px] capitalize tracking-[1.6px] font-bold 
+           sm:text-[24px] md:text-[28px] lg:text-[34px] xl:text-[38px];
+  }
+
+  h4 {
+    @apply text-[20px] tracking-[1.6px] 
+           sm:text-[22px] md:text-[26px] lg:text-[30px] xl:text-[36px];
+  }
+
+  h5 {
+    @apply text-[20px] tracking-[1.6px] font-bold 
+           md:text-[25px] xl:text-[30px];
+  }
+
+  h6 {
+    @apply text-[16px] sm:text-[17px] lg:text-[18px];
+  }
+
+  p {
+    @apply mt-0 text-[16px] text-[#666] tracking-[0.8px] leading-[1.45] 
+           lg:text-[20px];
+  }
+
+  p.lead {
+    @apply max-w-[956px] mx-auto text-[18px] font-light px-4 
+           lg:text-[21px] xl:text-[24px];
+  }
+}
+
+.container {
+  @apply px-[15px] w-full mx-auto md:w-[960px] lg:w-[1199px] xl:w-[1470px];
+}
+
+@media (max-width: 720px) {
+  :root {
+    --container-w: 100%;
+  }
+  .container {
+    @apply max-w-full;
+  }
+}
+
+@layer components {
+  .embla__btn {
+    @apply w-10 h-10 bg-no-repeat bg-center cursor-pointer border-none p-0;
+  }
+
+  .embla__btn-prev {
+    @apply rotate-180;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='%231d81cc' d='m14 7 5 5-5 5V7z'/%3E%3C/svg%3E");
+  }
+
+  .embla__btn-next {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='%231d81cc' d='m14 7 5 5-5 5V7z'/%3E%3C/svg%3E");
+  }
+
+  .embla__btn:disabled {
+    @apply opacity-30 cursor-default;
+  }
+}
+
+/* globals.css - only essential styles that can't be done with Tailwind */
+@layer components {
+  .embla {
+    @apply relative w-full opacity-0 transition-opacity duration-200;
+  }
+
+  .embla__container {
+    @apply flex flex-wrap justify-start;
+  }
+
+  .embla__container.no-transform {
+    @apply transform-none;
+  }
+
+  /* Custom corner decoration for service cards - can't be done with Tailwind */
+  .new-home-service-card::before,
+  .new-home-service-card::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 0;
+    height: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .new-home-service-card::before {
+    border-style: solid;
+    border-width: 40px 0 0 70px;
+    border-color: transparent transparent transparent #1d81cc;
+  }
+
+  .new-home-service-card::after {
+    top: -1px;
+    right: -1px;
+    border-style: solid;
+    border-width: 35px 0 0 35px;
+    border-color: transparent transparent transparent #fff;
+  }
+}
+
+@layer components {
+  .embla__container {
+    @apply flex flex-wrap lg:flex-nowrap;
+    width: calc(100% + 50px);
+    margin-left: -25px;
+
+    @screen xl {
+      width: calc(100% + 20px);
+      margin-left: -10px;
+    }
+
+    @screen md {
+      width: calc(100% + 40px);
+      margin-left: -20px;
+    }
+  }
+
+  .embla__slide__inner {
+    @apply px-[25px] xl:px-[10px] md:px-[20px];
+  }
 }
